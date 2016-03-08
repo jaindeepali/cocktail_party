@@ -3,15 +3,19 @@ library('tuneR')
 
 ## Input Sources
 
-S1 <- readWave('sound files/mixed sources/X1_linear.wav')
-S2 <- readWave('sound files/mixed sources/X2_linear.wav')
-X <- cbind(S1@left, S2@left)
+# In case of using mixed sources:
 
-## In case of using original sources
+# S1 <- readWave('sound files/mixed sources/X1_linear.wav')
+# S2 <- readWave('sound files/mixed sources/X2_linear.wav')
+# X <- cbind(S1@left, S2@left)
 
-# S <- cbind(S1@left, S2@left)
-# A <- matrix(c(0.291, 0.6557, -0.5439, 0.5572), 2, 2)
-# X <- S %*% A
+# In case of using original sources:
+
+S1 <- readWave('sound files/original sources/source1.wav')
+S2 <- readWave('sound files/original sources/source2.wav')
+S <- cbind(S1@left, S2@left)
+A <- matrix(c(0.291, 0.6557, -0.5439, 0.5572), 2, 2)
+X <- S %*% A
 
 ## Fast ICA
 
@@ -25,9 +29,10 @@ par(mfcol = c(2, 3))
 
 # In case of using original sources:
 
-# plot(1:nrow(S), S[,1 ], type = "l", main = "Original Signals",
-#      xlab = "", ylab = "")
-# plot(1:nrow(S), S[,2 ], type = "l", xlab = "", ylab = "")
+plot(1:nrow(S), S[,1 ], type = "l", main = "Original Signals",
+     xlab = "", ylab = "")
+plot(1:nrow(S), S[,2 ], type = "l", xlab = "", ylab = "")
+
 
 plot(1:nrow(X), X[,1 ], type = "l", main = "Mixed Signals",
      xlab = "", ylab = "")
