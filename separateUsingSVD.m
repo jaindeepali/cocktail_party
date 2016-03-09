@@ -60,8 +60,17 @@ function separateUsingSVD(sampleNumber)
     e2 = abs((abs(originalSignal2) - abs(output2)) ./ abs(originalSignal2));
     e2 = e2(isfinite(e2));
     e2 = sqrt(mean(e2 .^ 2));
+    ef = abs(mean([e1; e2]));
+
+    e1 = abs((abs(originalSignal1) - abs(output2)) ./ abs(originalSignal1));
+    e1 = e1(isfinite(e1));
+    e1 = sqrt(mean(e1 .^ 2));
+    e2 = abs((abs(originalSignal2) - abs(output1)) ./ abs(originalSignal2));
+    e2 = e2(isfinite(e2));
+    e2 = sqrt(mean(e2 .^ 2));
+    es = abs(mean([e1; e2]));
     'ERROR'
-    abs(mean([e1; e2]))
+    min([ef, es])
 endfunction
 
 function customMixAndSeparate(sample)
@@ -74,7 +83,7 @@ function customMixAndSeparate(sample)
     [originalSignal1, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
     [originalSignal2, fs] = audioread(strcat(originalSourcesDir, '2.wav'));
 
-    A = [1.055958, 2.116051; 3.902667 3.235965];
+    A = unifrnd(1, 5, 2, 2);
     M = [originalSignal1, originalSignal2];
     S = M * A;
     xx = S';
@@ -121,14 +130,23 @@ function customMixAndSeparate(sample)
     endfor
 
 
+    e1 = abs((abs(originalSignal1) - abs(output1)) ./ abs(originalSignal1));
+    e1 = e1(isfinite(e1));
+    e1 = sqrt(mean(e1 .^ 2));
+    e2 = abs((abs(originalSignal2) - abs(output2)) ./ abs(originalSignal2));
+    e2 = e2(isfinite(e2));
+    e2 = sqrt(mean(e2 .^ 2));
+    ef = abs(mean([e1; e2]));
+
     e1 = abs((abs(originalSignal1) - abs(output2)) ./ abs(originalSignal1));
     e1 = e1(isfinite(e1));
     e1 = sqrt(mean(e1 .^ 2));
     e2 = abs((abs(originalSignal2) - abs(output1)) ./ abs(originalSignal2));
     e2 = e2(isfinite(e2));
     e2 = sqrt(mean(e2 .^ 2));
+    es = abs(mean([e1; e2]));
     'ERROR'
-    abs(mean([e1; e2]))
+    min([ef, es])
 endfunction
 
 customMixAndSeparate('singleSine');

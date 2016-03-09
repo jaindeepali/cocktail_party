@@ -11,11 +11,11 @@ library('tuneR')
 # X <- cbind(S1@left, S2@left)
 
 # In case of using original sources:
-S1 <- readWave('sound_files/original_sources/2/1.wav')
-S2 <- readWave('sound_files/original_sources/2/2.wav')
+# S1 <- readWave('sound_files/original_sources/2/1.wav')
+# S2 <- readWave('sound_files/original_sources/2/2.wav')
 
-# S1 <- 3*sine(2) + 4*sine(10)
-# S2 <- 5*sine(3) + 7*sine(9)
+S1 <- 3*sine(20)
+S2 <- 5*sine(30)
 
 S1 <- normalize(S1, unit = '8')
 S2 <- normalize(S2, unit = '8')
