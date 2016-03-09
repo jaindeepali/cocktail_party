@@ -4,17 +4,15 @@ library('tuneR')
 ## Input Sources
 
 # In case of using mixed sources:
-
-# S1 <- readWave('sound files/mixed sources/X1_linear.wav')
-# S2 <- readWave('sound files/mixed sources/X2_linear.wav')
+# S1 <- readWave('sound files/mixed sources/mix2a.wav')
+# S2 <- readWave('sound files/mixed sources/mix2b.wav')
 # S1 <- normalize(S1, unit = '8')
 # S2 <- normalize(S2, unit = '8')
 # X <- cbind(S1@left, S2@left)
 
 # In case of using original sources:
-
-S1 <- readWave('sound files/original sources/source1.wav')
-S2 <- readWave('sound files/original sources/source2.wav')
+S1 <- readWave('sound files/original sources/source1a.wav')
+S2 <- readWave('sound files/original sources/source1b.wav')
 S1 <- normalize(S1, unit = '8')
 S2 <- normalize(S2, unit = '8')
 S <- cbind(S1@left, S2@left)
@@ -39,7 +37,6 @@ out2 <- normalize(out2, unit = '8')
 par(mfcol = c(2, 3))
 
 # In case of using original sources:
-
 plot(1:nrow(S), S[,1 ], type = "l", main = "Original Signals",
      xlab = "", ylab = "")
 plot(1:nrow(S), S[,2 ], type = "l", xlab = "", ylab = "")
@@ -58,12 +55,23 @@ plot(1:length(out2@left), out2@left, type = "l", xlab = "", ylab = "")
 par(mfcol = c(1, 1))
 
 # In case of using original sources:
-
 plot(S[,1], S[,2], main = "Original Signals Distribution", xlab = "S1", ylab = "S2", cex = 0.1)
 
 plot(X[,1], X[,2], main = "Mixed Signals Distribution", xlab = "X1", ylab = "X2", cex = 0.1)
 
 ## Save output signals
 
-writeWave(out1, filename = 'sound files/output/out1.wav')
-writeWave(out2, filename = 'sound files/output/out2.wav')
+writeWave(out1, filename = 'sound files/output/out1a.wav')
+writeWave(out2, filename = 'sound files/output/out1b.wav')
+
+## Calculate error in case of using original sources:
+
+S1 <- normalize(S1, unit = '1')
+S2 <- normalize(S2, unit = '1')
+out1 <- normalize(out1, unit = '1')
+out2 <- normalize(out2, unit = '1')
+
+err1 <- min(mean((out1**2 - S1**2)@left), mean((out1**2 - S2**2)@left))
+print(err1)
+err2 <- min(mean((out2**2 - S1**2)@left), mean((out2**2 - S2**2)@left))
+print(err2)
