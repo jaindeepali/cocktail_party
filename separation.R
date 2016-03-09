@@ -20,7 +20,7 @@ S2 <- sine(10)
 S1 <- normalize(S1, unit = '8')
 S2 <- normalize(S2, unit = '8')
 S <- cbind(S1@left, S2@left)
-A <- matrix(c(0.291, 0.6557, -0.5439, 0.5572), 2, 2)
+A <- matrix(runif(4, 1, 5), 2, 2)
 X <- S %*% A
 
 ## Fast ICA
