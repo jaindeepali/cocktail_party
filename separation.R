@@ -1,6 +1,5 @@
 library('fastICA')
 library('tuneR')
-library('Metrics')
 
 ## Input Sources
 
@@ -12,11 +11,8 @@ library('Metrics')
 # X <- cbind(S1@left, S2@left)
 
 # In case of using original sources:
-# S1 <- readWave('sound_files/original_sources/3/1.wav')
-# S2 <- readWave('sound_files/original_sources/3/2.wav')
-
-S1 <- sine(2)
-S2 <- sine(9)
+S1 <- readWave('sound_files/original_sources/2/1.wav')
+S2 <- readWave('sound_files/original_sources/2/2.wav')
 
 # S1 <- 3*sine(2) + 4*sine(10)
 # S2 <- 5*sine(3) + 7*sine(9)
@@ -75,8 +71,8 @@ plot(X[,1], X[,2], main = "Mixed Signals Distribution", xlab = "X1", ylab = "X2"
 
 ## Save output signals
 
-writeWave(out1, filename = 'sound_files/output/singleSine_1.wav')
-writeWave(out2, filename = 'sound_files/output/singleSine_2.wav')
+writeWave(out1, filename = 'sound_files/output/2_1.wav')
+writeWave(out2, filename = 'sound_files/output/2_2.wav')
 
 ## Calculate error in case of using original sources:
 
@@ -85,7 +81,7 @@ S2 <- normalize(S2, unit = '1')
 out1 <- normalize(out1, unit = '1')
 out2 <- normalize(out2, unit = '1')
 
-err1 <- min(rmse(abs(S1@left), abs(out1@left)), rmse(abs(S2@left), abs(out1@left)))
-err2 <- min(rmse(abs(S1@left), abs(out2@left)), rmse(abs(S2@left), abs(out2@left)))
-err <- mean(c(err1,err2))
-print(err)
+err1 <- min(mean((out1**2 - S1**2)@left), mean((out1**2 - S2**2)@left))
+err2 <- min(mean((out2**2 - S1**2)@left), mean((out2**2 - S2**2)@left))
+err <- abs(mean(c(err1,err2)))
+print(err^0.5)
