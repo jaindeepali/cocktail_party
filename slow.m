@@ -1,20 +1,52 @@
-[orig1, Fso1] = audioread('sound files/original sources/source2a.wav');
-[orig2, Fso2] = audioread('sound files/original sources/source2b.wav');
-[x1, Fs1] = audioread('sound files/mixed sources/mix2a.wav');
-[x2, Fs2] = audioread('sound files/mixed sources/mix2b.wav');
-xx = [x1, x2]';
-yy = sqrtm(inv(cov(xx')))*(xx-repmat(mean(xx,2),1,size(xx,2)));
-[W,s,v] = svd((repmat(sum(yy.*yy,1),size(yy,1),1).*yy)*yy');
+function separateUsingSVD(sampleNumber)
+    sampleNumber = strcat(num2str(sampleNumber), '/');
 
-a = W*xx; %W is unmixing matrix
-subplot(3,2,1); plot(x1); title('mixed audio - mic 1');
-subplot(3,2,2); plot(x2); title('mixed audio - mic 2');
-subplot(3,2,3); plot(a(1,:), 'g'); title('unmixed wave 1');
-subplot(3,2,4); plot(a(2,:),'r'); title('unmixed wave 2');
-subplot(3,2,5); plot(orig1); title('original wave 1');
-subplot(3,2,6); plot(orig2); title('original wave 2');
+    mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
+    originalSourcesDir = strcat('sound_files/original_sources/', sampleNumber);
+    outputDir = strcat('sound_files/svd_output/', sampleNumber);
 
-audiowrite('unmixed1.wav', a(1,:), Fs1);
-audiowrite('unmixed2.wav', a(2,:), Fs1);
+    numSamples = size(readdir(mixedSourcesDir), 1) - 2;
+
+    [mixedSignal, fs] = audioread(strcat(mixedSourcesDir, '1.wav'));
+    [originalSignal, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
+
+    mixedSignalList = [mixedSignal];
+    originalSignalList = [originalSignal];
+
+    for i = 2:numSamples
+        [mixedSignal, fs] = audioread(strcat(mixedSourcesDir, num2str(i), '.wav'));
+        [originalSignal, fs] = audioread(strcat(originalSourcesDir, num2str(i), '.wav'));
+
+        mixedSignalList(:, i) = mixedSignal;
+        originalSignalList(:, i) = originalSignal;
+    endfor
+
+    xx = mixedSignalList';
+    yy = sqrtm(inv(cov(xx')))*(xx-repmat(mean(xx,2),1,size(xx,2)));
+    [W,s,v] = svd((repmat(sum(yy.*yy,1),size(yy,1),1).*yy)*yy');
+
+    a = W*xx;
+
+    numGraph = 1;
+    for i = 1:numSamples
+        subplot(3, numSamples, numGraph);
+        plot(originalSignalList(:, i));
+        title(strcat('Original wave', ' ', num2str(i)));
+
+        subplot(3, numSamples, numGraph + numSamples);
+        plot(mixedSignalList(:, i));
+        title(strcat('Mixed wave', ' ', num2str(i)));
+
+        subplot(3, numSamples, numGraph + numSamples * 2);
+        plot(a(i, :));
+        title(strcat('Output wave', ' ', num2str(i)));
+
+        audiowrite(strcat(outputDir, num2str(i), '.wav'), a(i, :), fs);
+
+        numGraph += 1;
+    endfor
+endfunction
+
+separateUsingSVD(1);
 
 pause()
