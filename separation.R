@@ -7,12 +7,16 @@ library('tuneR')
 
 # S1 <- readWave('sound files/mixed sources/X1_linear.wav')
 # S2 <- readWave('sound files/mixed sources/X2_linear.wav')
+# S1 <- normalize(S1, unit = '8')
+# S2 <- normalize(S2, unit = '8')
 # X <- cbind(S1@left, S2@left)
 
 # In case of using original sources:
 
 S1 <- readWave('sound files/original sources/source1.wav')
 S2 <- readWave('sound files/original sources/source2.wav')
+S1 <- normalize(S1, unit = '8')
+S2 <- normalize(S2, unit = '8')
 S <- cbind(S1@left, S2@left)
 A <- matrix(c(0.291, 0.6557, -0.5439, 0.5572), 2, 2)
 X <- S %*% A
@@ -22,6 +26,13 @@ X <- S %*% A
 a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1,
              method = "R", row.norm = FALSE, maxit = 200,
              tol = 0.0001, verbose = TRUE)
+
+## Plot Signals
+
+out1 <- Wave(left = a$S[,1], samp.rate = S1@samp.rate, bit = S1@bit)
+out2 <- Wave(left = a$S[,2], samp.rate = S1@samp.rate, bit = S1@bit)
+out1 <- normalize(out1, unit = '8')
+out2 <- normalize(out2, unit = '8')
 
 ## Plot Signals
 
@@ -38,16 +49,21 @@ plot(1:nrow(X), X[,1 ], type = "l", main = "Mixed Signals",
      xlab = "", ylab = "")
 plot(1:nrow(X), X[,2 ], type = "l", xlab = "", ylab = "")
 
-plot(1:nrow(a$S), a$S[,1 ], type = "l", main = "ICA source estimates",
+plot(1:length(out1@left), out1@left, type = "l", main = "ICA source estimates",
      xlab = "", ylab = "")
-plot(1:nrow(a$S), a$S[,2], type = "l", xlab = "", ylab = "")
+plot(1:length(out2@left), out2@left, type = "l", xlab = "", ylab = "")
+
+## Plot Signals Distribution
+
+par(mfcol = c(1, 1))
+
+# In case of using original sources:
+
+plot(S[,1], S[,2], main = "Original Signals Distribution", xlab = "S1", ylab = "S2", cex = 0.1)
+
+plot(X[,1], X[,2], main = "Mixed Signals Distribution", xlab = "X1", ylab = "X2", cex = 0.1)
 
 ## Save output signals
-
-out1 <- Wave(left = a$S[,1], samp.rate = S1@samp.rate, bit = S1@bit)
-out2 <- Wave(left = a$S[,2], samp.rate = S1@samp.rate, bit = S1@bit)
-out1 <- normalize(out1, unit = '8')
-out2 <- normalize(out2, unit = '8')
 
 writeWave(out1, filename = 'sound files/output/out1.wav')
 writeWave(out2, filename = 'sound files/output/out2.wav')
