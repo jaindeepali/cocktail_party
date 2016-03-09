@@ -47,6 +47,6 @@ function separateUsingSVD(sampleNumber)
     endfor
 endfunction
 
-separateUsingSVD(1);
+separateUsingSVD(3);
 
 pause()
