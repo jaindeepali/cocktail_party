@@ -11,8 +11,12 @@ library('tuneR')
 # X <- cbind(S1@left, S2@left)
 
 # In case of using original sources:
-S1 <- readWave('sound files/original sources/source1a.wav')
-S2 <- readWave('sound files/original sources/source1b.wav')
+# S1 <- readWave('sound files/original sources/source1a.wav')
+# S2 <- readWave('sound files/original sources/source1b.wav')
+
+S1 <- sine(2)
+S2 <- sine(10)
+
 S1 <- normalize(S1, unit = '8')
 S2 <- normalize(S2, unit = '8')
 S <- cbind(S1@left, S2@left)
@@ -61,8 +65,8 @@ plot(X[,1], X[,2], main = "Mixed Signals Distribution", xlab = "X1", ylab = "X2"
 
 ## Save output signals
 
-writeWave(out1, filename = 'sound files/output/out1a.wav')
-writeWave(out2, filename = 'sound files/output/out1b.wav')
+writeWave(out1, filename = 'sound files/output/outSinea.wav')
+writeWave(out2, filename = 'sound files/output/outSineb.wav')
 
 ## Calculate error in case of using original sources:
 
