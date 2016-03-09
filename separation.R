@@ -25,9 +25,16 @@ X <- S %*% A
 
 ## Fast ICA
 
+startTime <- Sys.time()
+
 a <- fastICA(X, 2, alg.typ = "parallel", fun = "logcosh", alpha = 1,
              method = "R", row.norm = FALSE, maxit = 200,
              tol = 0.0001, verbose = TRUE)
+
+endTime <- Sys.time()
+print('fastICA running time:')
+print(endTime - startTime)
+
 
 ## Plot Signals
 
