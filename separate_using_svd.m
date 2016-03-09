@@ -22,7 +22,12 @@ function separateUsingSVD(sampleNumber)
 
     xx = mixedSignalList';
     yy = sqrtm(inv(cov(xx')))*(xx-repmat(mean(xx,2),1,size(xx,2)));
+    st = mktime(localtime(time()));
     [W,s,v] = svd((repmat(sum(yy.*yy,1),size(yy,1),1).*yy)*yy');
+    et = mktime(localtime(time()));
+
+    'TIME'
+    et - st
 
     a = W*xx;
 
@@ -62,7 +67,6 @@ function separateUsingSVD(sampleNumber)
     e2 = sqrt(mean(e2 .^ 2));
     'ERROR'
     abs(mean([e1; e2]))
-
 endfunction
 
 separateUsingSVD(3);
