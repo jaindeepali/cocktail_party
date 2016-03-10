@@ -126,7 +126,10 @@ function singleSineICA()
     max([cf, cs])
 endfunction
 
-% singleSineICA()
-separateUsingICA(5)
+sample = argv(){1,1}
 
-pause()
+if (sample == 'singleSine')
+    singleSineICA()
+else
+    separateUsingICA(sample)
+endif
