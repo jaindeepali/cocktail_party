@@ -49,26 +49,26 @@ function separateUsingSVD(sampleNumber)
         numGraph += 1;
     endfor
 
-    originalSignal1 = originalSignal1 / norm(originalSignal1);
-    originalSignal2 = originalSignal2 / norm(originalSignal2);
-    output1 = output1 / norm(output1);
-    output2 = output2 / norm(output2);
+    originalSignal1 = 255 * originalSignal1 / norm(originalSignal1);
+    originalSignal2 = 255 * originalSignal2 / norm(originalSignal2);
+    output1 = 255 * output1 / norm(output1);
+    output2 = 255 * output2 / norm(output2);
 
-    e1 = abs((abs(originalSignal1) - abs(output1)) ./ abs(originalSignal1));
-    e1 = e1(isfinite(e1));
+    e1 = abs((abs(originalSignal1) - abs(output1)));
+    e1(! isfinite(e1)) = 0;
     e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output2)) ./ abs(originalSignal2));
-    e2 = e2(isfinite(e2));
+    e2 = abs((abs(originalSignal2) - abs(output2)));
+    e2(! isfinite(e2)) = 0;
     e2 = sqrt(mean(e2 .^ 2));
-    ef = abs(mean([e1; e2]));
+    ef = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
 
-    e1 = abs((abs(originalSignal1) - abs(output2)) ./ abs(originalSignal1));
-    e1 = e1(isfinite(e1));
+    e1 = abs((abs(originalSignal1) - abs(output2)));
+    e1(! isfinite(e1)) = 0;
     e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output1)) ./ abs(originalSignal2));
-    e2 = e2(isfinite(e2));
+    e2 = abs((abs(originalSignal2) - abs(output1)));
+    e2(! isfinite(e2)) = 0;
     e2 = sqrt(mean(e2 .^ 2));
-    es = abs(mean([e1; e2]));
+    es = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
     'ERROR'
     min([ef, es])
 endfunction
@@ -100,14 +100,9 @@ function customMixAndSeparate(sample)
     output1 = a(1, :)';
     output2 = a(2, :)';
 
-    originalSignal1 = originalSignal1 / norm(originalSignal1);
-    originalSignal2 = originalSignal2 / norm(originalSignal2);
-    output1 = output1 / norm(output1);
-    output2 = output2 / norm(output2);
     mixedSignalList = M;
     outputList = [output1, output2];
     originalSignalList = [originalSignal1, originalSignal2];
-
 
     numGraph = 1;
     numSamples = 2;
@@ -129,26 +124,32 @@ function customMixAndSeparate(sample)
         numGraph += 1;
     endfor
 
+    originalSignal1 = 255 * originalSignal1 / norm(originalSignal1);
+    originalSignal2 = 255 * originalSignal2 / norm(originalSignal2);
+    output1 = 255 * output1 / norm(output1);
+    output2 = 255 * output2 / norm(output2);
 
-    e1 = abs((abs(originalSignal1) - abs(output1)) ./ abs(originalSignal1));
-    e1 = e1(isfinite(e1));
+    e1 = abs((abs(originalSignal1) - abs(output1)));
+    e1(! isfinite(e1)) = 0;
     e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output2)) ./ abs(originalSignal2));
-    e2 = e2(isfinite(e2));
+    e2 = abs((abs(originalSignal2) - abs(output2)));
+    e2(! isfinite(e2)) = 0;
     e2 = sqrt(mean(e2 .^ 2));
-    ef = abs(mean([e1; e2]));
+    ef = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
 
-    e1 = abs((abs(originalSignal1) - abs(output2)) ./ abs(originalSignal1));
-    e1 = e1(isfinite(e1));
+    e1 = abs((abs(originalSignal1) - abs(output2)));
+    e1(! isfinite(e1)) = 0;
     e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output1)) ./ abs(originalSignal2));
-    e2 = e2(isfinite(e2));
+    e2 = abs((abs(originalSignal2) - abs(output1)));
+    e2(! isfinite(e2)) = 0;
     e2 = sqrt(mean(e2 .^ 2));
-    es = abs(mean([e1; e2]));
+    es = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
     'ERROR'
     min([ef, es])
 endfunction
 
-customMixAndSeparate('singleSine');
+customMixAndSeparate('doubleSine');
+
+% separateUsingSVD(5)
 
 pause()
