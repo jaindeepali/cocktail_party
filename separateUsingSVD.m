@@ -15,9 +15,9 @@ function separateUsingSVD(sampleNumber)
     mixedSignalList = [mixedSignal1, mixedSignal2];
     originalSignalList = [originalSignal1, originalSignal2];
 
+    st = mktime(localtime(time()));
     xx = mixedSignalList';
     yy = sqrtm(inv(cov(xx')))*(xx-repmat(mean(xx,2),1,size(xx,2)));
-    st = mktime(localtime(time()));
     [W,s,v] = svd((repmat(sum(yy.*yy,1),size(yy,1),1).*yy)*yy');
     et = mktime(localtime(time()));
 
