@@ -1,12 +1,11 @@
 pkg load nan
 
-function convbssExtractSignals(sampleNumber)
-    'YOLO'
+function separateUsingICA(sampleNumber)
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
     originalSourcesDir = strcat('sound_files/original_sources/', sampleNumber);
-    outputDir = strcat('sound_files/conv_output/', sampleNumber);
+    outputDir = strcat('sound_files/ica_output/', sampleNumber);
 
     numSamples = size(readdir(mixedSourcesDir), 1) - 2;
 
@@ -18,33 +17,21 @@ function convbssExtractSignals(sampleNumber)
     mixedSignalList = [mixedSignal1, mixedSignal2];
     originalSignalList = [originalSignal1, originalSignal2];
 
-    [rx,cx] = size(mixedSignalList);
-    T = 512;
-    Q = 128;
-    K = 5;
-    N = floor(rx/T/K);
-    verbose = 0;
-    iter = 1000;
-    printevery = 10;
-    eta = 1.0;
-    ds =2;
-
     st = mktime(localtime(time()));
-
-    'HELLO'
-    [y,Wt,J] = convbss(mixedSignalList,T,Q,K,N,verbose,iter,printevery,eta,ds);
-
+    xx = mixedSignalList';
+    [A, W] = fastica(xx, 'verbose', 'off', 'displayMode', 'off');
     et = mktime(localtime(time()));
 
     'TIME'
     et - st
 
-    output1 = y(:, 1);
-    output2 = y(:, 2);
+    a = W*xx;
+
+    output1 = a(1, :)';
+    output2 = a(2, :)';
     outputList = [output1, output2];
 
     numGraph = 1;
-    numSamples = 2;
     for i = 1:numSamples
         subplot(3, numSamples, numGraph);
         plot(originalSignalList(:, i));
@@ -58,7 +45,7 @@ function convbssExtractSignals(sampleNumber)
         plot(outputList(:, i));
         title(strcat('Output wave', ' ', num2str(i)));
 
-        audiowrite(strcat(outputDir, num2str(i), '.wav'), y(:, i)', fs);
+        audiowrite(strcat(outputDir, num2str(i), '.wav'), a(i, :), fs);
 
         numGraph += 1;
     endfor
@@ -75,12 +62,12 @@ function convbssExtractSignals(sampleNumber)
     max([cf; cs])
 endfunction
 
-function swagYolo(sample)
+function yoloSwag(sample)
     sample = strcat(num2str(sample), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sample);
     originalSourcesDir = strcat('sound_files/original_sources/', sample);
-    outputDir = strcat('sound_files/conv_output/', sample);
+    outputDir = strcat('sound_files/svd_output/', sample);
 
     [originalSignal1, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
     [originalSignal2, fs] = audioread(strcat(originalSourcesDir, '2.wav'));
@@ -88,40 +75,18 @@ function swagYolo(sample)
     A = unifrnd(1, 5, 2, 2);
     M = [originalSignal1, originalSignal2];
     S = M * A;
-    mixedSignalList = S;
+    xx = S';
     st = mktime(localtime(time()));
-    [rx,cx] = size(mixedSignalList);
-    T = 512;
-    Q = 128;
-    K = 5;
-    N = floor(rx/T/K);
-    verbose = 0;
-    iter = 1000;
-    printevery = 10;
-    eta = 1.0;
-    ds =2;
-
-    st = mktime(localtime(time()));
-
-    'HELLO'
-    [y,Wt,J] = convbss(mixedSignalList,T,Q,K,N,verbose,iter,printevery,eta,ds);
-
-    et = mktime(localtime(time()));
+    [A, W] = fastica(xx, 'displayMode', 'off', 'maxNumIterations', 10000);
     et = mktime(localtime(time()));
 
     'TIME'
     et - st
 
-    a = y;
+    a = W*xx;
 
-    output1 = a(:, 1);
-    output2 = a(:, 2);
-
-    size(output1)
-    size(output2)
-
-    size(originalSignal1)
-    size(originalSignal2)
+    output1 = a(1, :)';
+    output2 = a(2, :)';
 
     mixedSignalList = M;
     outputList = [output1, output2];
@@ -160,6 +125,6 @@ function swagYolo(sample)
     max([cf, cs])
 endfunction
 
-swagYolo('singleSine')
+yoloSwag('doubleSine')
 
 pause()

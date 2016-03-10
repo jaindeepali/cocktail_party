@@ -67,39 +67,45 @@ separateUsingICA <- function(sample, use_original=TRUE, sample_original=TRUE) {
      xlab = "", ylab = "")
     plot(1:length(out2@left), out2@left, type = "l", xlab = "", ylab = "")
 
-    writeWave(normalize(out1, unit = '8'), filename = paste(outputDir, '1.wav', sep='/'))
-    writeWave(normalize(out2, unit = '8'), filename = paste(outputDir, '2.wav', sep='/'))
-
     if(sample_original) {
-        os1 <- os1@left / sqrt(sum(os1@left ^ 2))
-        os2 <- os2@left / sqrt(sum(os2@left ^ 2))
-        out1 <- out1@left / sqrt(sum(out1@left ^ 2))
-        out2 <- out2@left / sqrt(sum(out2@left ^ 2))
+        c1 <- ccf(abs(os1@left), abs(out1@left))
+        c2 <- ccf(abs(os2@left), abs(out2@left))
+        cf <- mean(c(c1, c2))
+        print(c(c1, c2, cf))
 
-        e1 <- abs((abs(os1) - abs(out1)) / abs(os1))
-        e1 <- e1[is.finite(e1)]
-        e1 <- sqrt(mean(e1 ^ 2))
-        print(e1)
-        e2 <- abs((abs(os2) - abs(out2)) / abs(os2))
-        e2 <- e2[is.finite(e2)]
-        e2 <- sqrt(mean(e2 ^ 2))
-        print(e2)
-        ef <- abs(mean(c(e1, e2)))
+        c1 <- ccf(abs(os1@left), abs(out2@left))
+        c2 <- ccf(abs(os2@left), abs(out1@left))
+        cs <- mean(c(c1, c2))
+        print(c(c1, c2, cf))
 
-        e1 <- abs((abs(os1) - abs(out2)) / abs(os1))
-        e1 <- e1[is.finite(e1)]
-        e1 <- sqrt(mean(e1 ^ 2))
-        print(e1)
-        e2 <- abs((abs(os2) - abs(out1)) / abs(os2))
-        e2 <- e2[is.finite(e2)]
-        e2 <- sqrt(mean(e2 ^ 2))
-        print(e2)
-        es <- abs(mean(c(e1, e2)))
+        print('CORRELATION:')
+        print(max(c(cf, cs)))
 
-        err <- min(c(ef, es))
-        print('ERROR:')
-        print(err)
+        # print(c(mean(abs(os1)), mean(abs(os2))))
+        # e1 <- abs((abs(os1) - abs(out1)))
+        # e1 <- sqrt(mean(e1 ^ 2)) / mean(abs(os1))
+        # e2 <- abs((abs(os2) - abs(out2)))
+        # e2 <- sqrt(mean(e2 ^ 2)) / mean(abs(os2))
+        # ef <- abs(mean(c(e1, e2)))
+        # print(c(e1, e2))
+
+        # e1 <- abs((abs(os1) - abs(out2)) / abs(os1))
+        # e1 <- sqrt(mean(e1 ^ 2)) / mean(abs(os1))
+        # e2 <- abs((abs(os2) - abs(out1)) / abs(os2))
+        # e2 <- sqrt(mean(e2 ^ 2)) / mean(abs(os2))
+        # es <- abs(mean(c(e1, e2)))
+        # print(c(e1, e2))
+
+        # err <- min(c(ef, es))
+        # print('ERROR:')
+        # print(err)
     }
+
+    os1 <- normalize(os1, unit = '8')
+    os2 <- normalize(os2, unit = '8')
+    writeWave(os1, filename = paste(outputDir, '1.wav', sep='/'))
+    writeWave(os2, filename = paste(outputDir, '2.wav', sep='/'))
+
 }
 
 ## Plot Signals Distribution
