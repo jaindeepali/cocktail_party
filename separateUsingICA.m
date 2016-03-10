@@ -23,7 +23,8 @@ function separateUsingICA(sampleNumber)
     et = mktime(localtime(time()));
 
     'TIME'
-    et - st
+    extime = et - st
+    extime
 
     a = W*xx;
 
@@ -59,7 +60,12 @@ function separateUsingICA(sampleNumber)
     cs = mean([c1; c2]);
 
     'CORRELATION:'
-    max([cf; cs])
+    cor = max([cf; cs])
+    cor
+    
+    jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    fid = fopen(strcat(outputDir, 'stats.json'), "w")
+    fputs(fid, jsonString)
 endfunction
 
 function singleSineICA()
@@ -82,7 +88,8 @@ function singleSineICA()
     et = mktime(localtime(time()));
 
     'TIME'
-    et - st
+    extime = et - st
+    extime
 
     a = W*xx;
 
@@ -122,8 +129,13 @@ function singleSineICA()
     c2 = corrcoef(abs(originalSignal2), abs(output1));
     cs = mean([c1; c2]);
 
-    'CORRELATION'
-    max([cf, cs])
+    'CORRELATION:'
+    cor = max([cf; cs])
+    cor
+    
+    jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    fid = fopen(strcat(outputDir, 'stats.json'), "w")
+    fputs(fid, jsonString)
 endfunction
 
 sample = argv(){1,1}

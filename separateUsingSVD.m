@@ -24,7 +24,8 @@ function separateUsingSVD(sampleNumber)
     et = mktime(localtime(time()));
 
     'TIME'
-    et - st
+    extime = et - st
+    extime
 
     a = W*xx;
 
@@ -60,7 +61,13 @@ function separateUsingSVD(sampleNumber)
     cs = mean([c1; c2]);
 
     'CORRELATION:'
-    max([cf; cs])
+    cor = max([cf; cs])
+    cor
+    
+    jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    fid = fopen(strcat(outputDir, 'stats.json'), "w")
+    fputs(fid, jsonString)
+    
 endfunction
 
 function singleSineSVD()
@@ -84,7 +91,8 @@ function singleSineSVD()
     et = mktime(localtime(time()));
 
     'TIME'
-    et - st
+    extime = et - st
+    extime
 
     a = W*xx;
 
@@ -124,7 +132,12 @@ function singleSineSVD()
     cs = mean([c1; c2]);
 
     'CORRELATION'
-    max([cf, cs])
+    cor = max([cf, cs])
+    cor
+    
+    jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    fid = fopen(strcat(outputDir, 'stats.json'), "w")
+    fputs(fid, jsonString)
 endfunction
 
 sample = argv(){1,1}
