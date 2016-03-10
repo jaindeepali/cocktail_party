@@ -58,28 +58,16 @@ function convbssExtractSignals(sampleNumber)
         numGraph += 1;
     endfor
 
-    originalSignal1 = 255 * originalSignal1 / norm(originalSignal1);
-    originalSignal2 = 255 * originalSignal2 / norm(originalSignal2);
-    output1 = 255 * output1 / norm(output1);
-    output2 = 255 * output2 / norm(output2);
+    c1 = corrcoef(abs(originalSignal1), abs(output1));
+    c2 = corrcoef(abs(originalSignal2), abs(output2));
+    cf = mean([c1; c2]);
 
-    e1 = abs((abs(originalSignal1) - abs(output1)));
-    e1(! isfinite(e1)) = 0;
-    e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output2)));
-    e2(! isfinite(e2)) = 0;
-    e2 = sqrt(mean(e2 .^ 2));
-    ef = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
+    c1 = corrcoef(abs(originalSignal1), abs(output2));
+    c2 = corrcoef(abs(originalSignal2), abs(output1));
+    cs = mean([c1; c2]);
 
-    e1 = abs((abs(originalSignal1) - abs(output2)));
-    e1(! isfinite(e1)) = 0;
-    e1 = sqrt(mean(e1 .^ 2));
-    e2 = abs((abs(originalSignal2) - abs(output1)));
-    e2(! isfinite(e2)) = 0;
-    e2 = sqrt(mean(e2 .^ 2));
-    es = abs(mean([e1 ./ mean(abs(originalSignal1)); e2 ./ mean(abs(originalSignal2))]));
-    'ERROR'
-    min([ef, es])
+    'CORRELATION:'
+    max([cf; cs])
 endfunction
 
 pause()
