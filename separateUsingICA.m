@@ -62,7 +62,8 @@ function separateUsingICA(sampleNumber)
     max([cf; cs])
 endfunction
 
-function yoloSwag(sample)
+function singleSineICA()
+    sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sample);
@@ -88,7 +89,7 @@ function yoloSwag(sample)
     output1 = a(1, :)';
     output2 = a(2, :)';
 
-    mixedSignalList = M;
+    mixedSignalList = S;
     outputList = [output1, output2];
     originalSignalList = [originalSignal1, originalSignal2];
 
@@ -125,6 +126,7 @@ function yoloSwag(sample)
     max([cf, cs])
 endfunction
 
-yoloSwag('doubleSine')
+% singleSineICA()
+separateUsingICA(5)
 
 pause()

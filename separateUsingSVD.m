@@ -63,7 +63,8 @@ function separateUsingSVD(sampleNumber)
     max([cf; cs])
 endfunction
 
-function customMixAndSeparate(sample)
+function singleSineSVD()
+    sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sample);
@@ -90,7 +91,7 @@ function customMixAndSeparate(sample)
     output1 = a(1, :)';
     output2 = a(2, :)';
 
-    mixedSignalList = M;
+    mixedSignalList = S;
     outputList = [output1, output2];
     originalSignalList = [originalSignal1, originalSignal2];
 
@@ -126,8 +127,7 @@ function customMixAndSeparate(sample)
     max([cf, cs])
 endfunction
 
-% customMixAndSeparate('doubleSine');
-
-separateUsingSVD(3)
+singleSineSVD()
+% separateUsingSVD(2)
 
 pause()

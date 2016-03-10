@@ -160,6 +160,6 @@ function swagYolo(sample)
     max([cf, cs])
 endfunction
 
-swagYolo('singleSine')
+convbssExtractSignals(8)
 
 pause()
