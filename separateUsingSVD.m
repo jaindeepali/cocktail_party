@@ -126,8 +126,8 @@ function customMixAndSeparate(sample)
     max([cf, cs])
 endfunction
 
-customMixAndSeparate('doubleSine');
+% customMixAndSeparate('doubleSine');
 
-% separa/teUsingSVD(5)
+separateUsingSVD(3)
 
 pause()
