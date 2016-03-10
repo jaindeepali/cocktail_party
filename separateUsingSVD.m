@@ -127,7 +127,11 @@ function singleSineSVD()
     max([cf, cs])
 endfunction
 
-singleSineSVD()
-% separateUsingSVD(2)
+sample = argv(){1,1}
 
-pause()
+if (sample == 'singleSine')
+    singleSineSVD()
+else
+    separateUsingSVD(sample)
+endif
+
