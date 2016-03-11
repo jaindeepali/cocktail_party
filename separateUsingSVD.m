@@ -63,14 +63,16 @@ function separateUsingSVD(sampleNumber)
     'CORRELATION:'
     cor = max([cf; cs])
     cor
-    
+
     jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    strcat(outputDir, 'stats.json')
     fid = fopen(strcat(outputDir, 'stats.json'), "w")
     fputs(fid, jsonString)
-    
+
 endfunction
 
 function singleSineSVD()
+    'INSIDE SINE SVD'
     sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
@@ -134,7 +136,7 @@ function singleSineSVD()
     'CORRELATION'
     cor = max([cf, cs])
     cor
-    
+
     jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
     fid = fopen(strcat(outputDir, 'stats.json'), "w")
     fputs(fid, jsonString)
@@ -142,7 +144,7 @@ endfunction
 
 sample = argv(){1,1}
 
-if (sample == 'singleSine')
+if (strcmp(sample, 'singleSine'))
     singleSineSVD()
 else
     separateUsingSVD(sample)

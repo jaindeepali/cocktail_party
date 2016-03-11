@@ -1,6 +1,7 @@
 pkg load nan
 
 function separateUsingICA(sampleNumber)
+    'INSIDE SEPARATE ICA'
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
@@ -62,13 +63,14 @@ function separateUsingICA(sampleNumber)
     'CORRELATION:'
     cor = max([cf; cs])
     cor
-    
+
     jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
     fid = fopen(strcat(outputDir, 'stats.json'), "w")
     fputs(fid, jsonString)
 endfunction
 
 function singleSineICA()
+    'INSIDE SINE ICA'
     sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
@@ -132,7 +134,7 @@ function singleSineICA()
     'CORRELATION:'
     cor = max([cf; cs])
     cor
-    
+
     jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
     fid = fopen(strcat(outputDir, 'stats.json'), "w")
     fputs(fid, jsonString)
@@ -140,7 +142,7 @@ endfunction
 
 sample = argv(){1,1}
 
-if (sample == 'singleSine')
+if (strcmp(sample, 'singleSine'))
     singleSineICA()
 else
     separateUsingICA(sample)
