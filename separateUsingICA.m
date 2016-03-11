@@ -1,7 +1,6 @@
 pkg load nan
 
 function separateUsingICA(sampleNumber)
-    'INSIDE SEPARATE ICA'
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
@@ -65,6 +64,8 @@ function separateUsingICA(sampleNumber)
     cor
 
     jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    jsonString
+    strcat(outputDir, 'stats.json')
     fid = fopen(strcat(outputDir, 'stats.json'), "w")
     fputs(fid, jsonString)
 endfunction
@@ -147,3 +148,5 @@ if (strcmp(sample, 'singleSine'))
 else
     separateUsingICA(sample)
 endif
+
+pause()

@@ -150,3 +150,4 @@ else
     separateUsingSVD(sample)
 endif
 
+pause()
