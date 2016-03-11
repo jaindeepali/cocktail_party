@@ -432,6 +432,18 @@ if only > 1
     % Calculate the whitening
     [whitesig, whiteningMatrix, dewhiteningMatrix] = whitenv ...
 						     (mixedsig, E, D, verbose);
+
+    % 'Size whitening signals'
+    % size(whitesig)
+    % f = figure('visible','off');
+    % scatter(whitesig(1, :)', whitesig(2, :)', 1);
+    % title('Whitening distribution');
+    % xlabel('Whitened Signal 1')
+    % ylabel('Whitened Signal 2')
+    % outputDir = strcat('sound_files/ica_output/8')
+    % filename=sprintf(strcat(outputDir,'/whiteDist.png'),f);
+    % print(filename);
+    % 'SWAG'
   end
 
 end % if only > 1
