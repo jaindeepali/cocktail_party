@@ -1,4 +1,5 @@
 pkg load nan
+graphics_toolkit gnuplot
 
 function separateUsingSVD(sampleNumber)
     sampleNumber = strcat(num2str(sampleNumber), '/');
@@ -51,6 +52,30 @@ function separateUsingSVD(sampleNumber)
 
         numGraph += 1;
     endfor
+
+    f = figure('visible','off');
+    scatter(originalSignalList(:, 1), originalSignalList(:, 2), 1);
+    title('Original signal distribution');
+    xlabel('Original Signal 1')
+    ylabel('Original Signal 2')
+    filename=sprintf(strcat(outputDir,'origDist.png'),f);                                                                          
+    print(filename); 
+
+    f = figure('visible','off');
+    scatter(mixedSignalList(:, 1), mixedSignalList(:, 2), 1);
+    title('mixed signal distribution');
+    xlabel('Mixed Signal 1')
+    ylabel('Mixed Signal 2')
+    filename=sprintf(strcat(outputDir,'mixDist.png'),f);                                                                          
+    print(filename); 
+
+    f = figure('visible','off');
+    scatter(outputList(:, 1), outputList(:, 2), 1);
+    title('Output signal distribution');
+    xlabel('Output Signal 1')
+    ylabel('Output Signal 2')
+    filename=sprintf(strcat(outputDir,'outDist.png'),f);                                                                          
+    print(filename); 
 
     c1 = corrcoef(abs(originalSignal1), abs(output1));
     c2 = corrcoef(abs(originalSignal2), abs(output2));
@@ -124,6 +149,30 @@ function singleSineSVD()
 
         numGraph += 1;
     endfor
+
+    f = figure('visible','off');
+    scatter(originalSignalList(:, 1), originalSignalList(:, 2), 1);
+    title('Original signal distribution');
+    xlabel('Original Signal 1')
+    ylabel('Original Signal 2')
+    filename=sprintf(strcat(outputDir,'origDist.png'),f);                                                                          
+    print(filename); 
+
+    f = figure('visible','off');
+    scatter(mixedSignalList(:, 1), mixedSignalList(:, 2), 1);
+    title('mixed signal distribution');
+    xlabel('Mixed Signal 1')
+    ylabel('Mixed Signal 2')
+    filename=sprintf(strcat(outputDir,'mixDist.png'),f);                                                                          
+    print(filename); 
+
+    f = figure('visible','off');
+    scatter(outputList(:, 1), outputList(:, 2), 1);
+    title('Output signal distribution');
+    xlabel('Output Signal 1')
+    ylabel('Output Signal 2')
+    filename=sprintf(strcat(outputDir,'outDist.png'),f);                                                                          
+    print(filename); 
 
     c1 = corrcoef(abs(originalSignal1), abs(output1));
     c2 = corrcoef(abs(originalSignal2), abs(output2));
