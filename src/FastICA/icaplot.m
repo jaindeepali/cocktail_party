@@ -97,7 +97,7 @@ function icaplot(mode, varargin);
 
 icaplotfunctions;
 
-args = list(all_va_args);
+args = varargin;
 
 str_param = lower(mode);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

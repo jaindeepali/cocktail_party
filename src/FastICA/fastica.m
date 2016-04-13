@@ -261,7 +261,7 @@ plottype = 'histogram';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Read the optional parameters
 
-args = list(all_va_args);
+args = varargin;
 if(rem(nargin-1,2)==1)
      error('Optional parameters should always go by pairs');
      else
