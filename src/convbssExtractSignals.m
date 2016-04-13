@@ -1,7 +1,6 @@
 pkg load nan
 
 function convbssExtractSignals(sampleNumber)
-    'YOLO'
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);

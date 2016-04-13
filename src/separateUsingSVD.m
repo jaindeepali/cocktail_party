@@ -4,11 +4,11 @@ graphics_toolkit gnuplot
 function separateUsingSVD(sampleNumber)
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
-    mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
-    originalSourcesDir = strcat('sound_files/original_sources/', sampleNumber);
-    outputDir = strcat('sound_files/svd_output/', sampleNumber);
+    mixedSourcesDir = strcat('../sound_files/mixed_sources/', sampleNumber);
+    originalSourcesDir = strcat('../sound_files/original_sources/', sampleNumber);
+    outputDir = strcat('../sound_files/svd_output/', sampleNumber);
 
-    numSamples = size(readdir(mixedSourcesDir), 1) - 2;
+    numSamples = size(readdir(mixedSourcesDir), 1) - 2
 
     [mixedSignal1, fs] = audioread(strcat(mixedSourcesDir, '1.wav'));
     [originalSignal1, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
@@ -101,9 +101,9 @@ function singleSineSVD()
     sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
-    mixedSourcesDir = strcat('sound_files/mixed_sources/', sample);
-    originalSourcesDir = strcat('sound_files/original_sources/', sample);
-    outputDir = strcat('sound_files/svd_output/', sample);
+    mixedSourcesDir = strcat('../sound_files/mixed_sources/', sample);
+    originalSourcesDir = strcat('../sound_files/original_sources/', sample);
+    outputDir = strcat('../sound_files/svd_output/', sample);
 
     [originalSignal1, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
     [originalSignal2, fs] = audioread(strcat(originalSourcesDir, '2.wav'));

@@ -2,11 +2,12 @@ pkg load nan
 graphics_toolkit gnuplot
 
 function separateUsingICA(sampleNumber)
+    addpath('./vendor/FastICA');
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
-    mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
-    originalSourcesDir = strcat('sound_files/original_sources/', sampleNumber);
-    outputDir = strcat('sound_files/ica_output/', sampleNumber);
+    mixedSourcesDir = strcat('../sound_files/mixed_sources/', sampleNumber);
+    originalSourcesDir = strcat('../sound_files/original_sources/', sampleNumber);
+    outputDir = strcat('../sound_files/ica_output/', sampleNumber);
 
     numSamples = size(readdir(mixedSourcesDir), 1) - 2;
 
@@ -100,9 +101,9 @@ function singleSineICA()
     sample = 'singleSine'
     sample = strcat(num2str(sample), '/');
 
-    mixedSourcesDir = strcat('sound_files/mixed_sources/', sample);
-    originalSourcesDir = strcat('sound_files/original_sources/', sample);
-    outputDir = strcat('sound_files/ica_output/', sample);
+    mixedSourcesDir = strcat('../sound_files/mixed_sources/', sample);
+    originalSourcesDir = strcat('../sound_files/original_sources/', sample);
+    outputDir = strcat('../sound_files/ica_output/', sample);
 
     [originalSignal1, fs] = audioread(strcat(originalSourcesDir, '1.wav'));
     [originalSignal2, fs] = audioread(strcat(originalSourcesDir, '2.wav'));
