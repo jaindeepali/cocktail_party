@@ -1,8 +1,8 @@
 pkg load nan
 graphics_toolkit gnuplot
+addpath('./vendor/FastICA');
 
 function separateUsingICA(sampleNumber)
-    addpath('./vendor/FastICA');
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('../sound_files/mixed_sources/', sampleNumber);
@@ -169,11 +169,12 @@ function singleSineICA()
     % print(filename);
 
     % f = figure('visible','off');
-    % scatter(outputList(:, 1), outputList(:, 2), 1);
-    % title('Output signal distribution');
-    % xlabel('Output Signal 1')
-    % ylabel('Output Signal 2')
-    % filename=sprintf(strcat(outputDir,'outDist.png'),f);
+    % a = outputList(:, 2);
+    % hist(a);
+    % title('Histogram for output signal 1');
+    % xlabel('Output signal value')
+    % ylabel('Count in histogram')
+    % filename=sprintf(strcat(outputDir,'hist4.png'),f);
     % print(filename);
 
     c1 = corrcoef(abs(originalSignal1), abs(output1));
