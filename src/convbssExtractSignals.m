@@ -3,9 +3,11 @@ pkg load nan
 function convbssExtractSignals(sampleNumber)
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
-    mixedSourcesDir = strcat('sound_files/mixed_sources/', sampleNumber);
-    originalSourcesDir = strcat('sound_files/original_sources/', sampleNumber);
-    outputDir = strcat('sound_files/conv_output/', sampleNumber);
+    mixedSourcesDir = strcat('../sound_files/mixed_sources/', sampleNumber);
+    originalSourcesDir = strcat('../sound_files/original_sources/', sampleNumber);
+    outputDir = strcat('../sound_files/conv_output/', sampleNumber);
+
+    mkdir(outputDir);
 
     numSamples = size(readdir(mixedSourcesDir), 1) - 2;
 

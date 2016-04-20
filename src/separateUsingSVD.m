@@ -8,6 +8,8 @@ function separateUsingSVD(sampleNumber)
     originalSourcesDir = strcat('../sound_files/original_sources/', sampleNumber);
     outputDir = strcat('../sound_files/svd_output/', sampleNumber);
 
+    mkdir(outputDir);
+
     numSamples = size(readdir(mixedSourcesDir), 1) - 2
 
     [mixedSignal1, fs] = audioread(strcat(mixedSourcesDir, '1.wav'));
