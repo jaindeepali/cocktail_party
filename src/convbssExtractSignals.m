@@ -1,6 +1,8 @@
 pkg load nan
+addpath('./vendor/ConvBSS')
 
 function convbssExtractSignals(sampleNumber)
+    sampleNumber
     sampleNumber = strcat(num2str(sampleNumber), '/');
 
     mixedSourcesDir = strcat('../sound_files/mixed_sources/', sampleNumber);
@@ -161,6 +163,7 @@ function swagYolo(sample)
     max([cf, cs])
 endfunction
 
-convbssExtractSignals(8)
+sample = argv(){1,1}
+convbssExtractSignals(sample)
 
 pause()
