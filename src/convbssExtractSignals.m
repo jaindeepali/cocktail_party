@@ -40,7 +40,7 @@ function convbssExtractSignals(sampleNumber)
     et = mktime(localtime(time()));
 
     'TIME'
-    et - st
+    extime = et - st
 
     output1 = y(:, 1);
     output2 = y(:, 2);
@@ -75,7 +75,13 @@ function convbssExtractSignals(sampleNumber)
     cs = mean([c1; c2]);
 
     'CORRELATION:'
-    max([cf; cs])
+    cor = max([cf; cs])
+
+    jsonString = strcat('{"time":', num2str(extime), ',"cor":', num2str(cor), '}');
+    jsonString
+    strcat(outputDir, 'stats.json')
+    fid = fopen(strcat(outputDir, 'stats.json'), 'w')
+    fputs(fid, jsonString)
 endfunction
 
 function swagYolo(sample)

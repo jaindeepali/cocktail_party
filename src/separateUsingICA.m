@@ -36,24 +36,25 @@ function separateUsingICA(sampleNumber)
     output2 = a(2, :)';
     outputList = [output1, output2];
 
-    numGraph = 1;
-    for i = 1:numSamples
-        subplot(3, numSamples, numGraph);
-        plot(originalSignalList(:, i));
-        title(strcat('Original wave', ' ', num2str(i)));
+    % numGraph = 1;
+    % for i = 1:numSamples
+    %     subplot(3, numSamples, numGraph);
+    %     plot(originalSignalList(:, i));
+    %     title(strcat('Original wave', ' ', num2str(i)));
 
-        subplot(3, numSamples, numGraph + numSamples);
-        plot(mixedSignalList(:, i));
-        title(strcat('Mixed wave', ' ', num2str(i)));
+    %     subplot(3, numSamples, numGraph + numSamples);
+    %     plot(mixedSignalList(:, i));
+    %     title(strcat('Mixed wave', ' ', num2str(i)));
 
-        subplot(3, numSamples, numGraph + numSamples * 2);
-        plot(outputList(:, i));
-        title(strcat('Output wave', ' ', num2str(i)));
+    %     subplot(3, numSamples, numGraph + numSamples * 2);
+    %     plot(outputList(:, i));
+    %     title(strcat('Output wave', ' ', num2str(i)));
 
-        audiowrite(strcat(outputDir, num2str(i), '.wav'), a(i, :), fs);
+        audiowrite(strcat(outputDir, num2str(1), '.wav'), a(1, :), fs);
+        audiowrite(strcat(outputDir, num2str(2), '.wav'), a(2, :), fs);
 
-        numGraph += 1;
-    endfor
+    %     numGraph += 1;
+    % endfor
 
     % f = figure('visible','off');
     % scatter(originalSignalList(:, 1), originalSignalList(:, 2), 1);
